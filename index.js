@@ -22,6 +22,14 @@ app.use(
   })
 );
 
+app.get('/api/tasks', (req,res) => {
+  const task = [
+    "Raindrops on roses",
+    "whiskers on kittens"
+  ]
+  res.json(task);
+});
+
 function runServer(port = PORT) {
   const server = app
     .listen(port, () => {
