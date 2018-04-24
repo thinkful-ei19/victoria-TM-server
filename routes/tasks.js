@@ -6,7 +6,7 @@ const Task = require('../models/task');
 const Workflow = require('../models/workflow');
 const router = express.Router();
 
-router.get('/api/tasks', (req,res,next) => {
+router.get('/tasks', (req,res,next) => {
   return Task.find()
     .then(result => {
       res.json(result);
