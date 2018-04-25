@@ -2,23 +2,22 @@
 
 const express = require('express');
 const mongoose = require('mongoose');
+const CommentModel = require('../models/comment');
 const Task = require('../models/task');
-const Comment = require('../models/comment');
 const router = express.Router();
 
 router.get('/comments', (req,res,next) => {
-  return Comment.find()
+  return CommentModel.find()
     .then(result => {
       res.json(result);
     });
-
 });
 
 router.post('/comments', (req, res, next) => {
   const { comment } = req.body;
-  const newComment = {comment}
+  const newComment = { comment };
 
-  Comment.create(newComment)
+  return CommentModel.create(newComment)
     .then(result => {
       res.location(`${req.originalUrl}/${result.id}`).status(201).json(result);
     })
@@ -39,7 +38,7 @@ router.put('/comments/:id', (req, res, next) => {
 
   const updateComment = { comment };
 
-  Comment.findByIdAndUpdate(id, updateComment)
+  CommentModel.findByIdAndUpdate(id, updateComment)
     .then(result => {
       if (result) {
         res.json(result);
@@ -56,7 +55,7 @@ router.put('/comments/:id', (req, res, next) => {
 router.delete('/comments/:id', (req, res, next) => {
   const { id } = req.params;
 
-  Comment.findByIdAndRemove(id)
+  CommentModel.findByIdAndRemove(id)
   .then(result => {
     if (!result) {
       next();
