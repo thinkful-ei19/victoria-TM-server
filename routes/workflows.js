@@ -72,22 +72,22 @@ router.put('/workflows/:id', (req, res, next) => {
     });
 });
 
-// router.delete('/workflows/:id', (req, res, next) => {
-//   const { id } = req.params;
-//
-//   Workflow.findById({ _id: id })
-//     .then(result => result.task)
-//     .then(Workflow.findByIdAndRemove({ _id: id }))
-//     .then(result => {
-//       if (!result) {
-//         next();
-//       }
-//       res.status(204).end();
-//     })
-//     .catch(err => {
-//       next(err);
-//     });
-//
-// });
+router.delete('/workflows/:id', (req, res, next) => {
+  const { id } = req.params;
+
+  Workflow.findById({ _id: id })
+    .then(result => result.task)
+    .then(Workflow.findByIdAndRemove({ _id: id }))
+    .then(result => {
+      if (!result) {
+        next();
+      }
+      res.status(204).end();
+    })
+    .catch(err => {
+      next(err);
+    });
+
+});
 
 module.exports = router;

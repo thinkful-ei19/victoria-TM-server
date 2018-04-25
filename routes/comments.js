@@ -2,7 +2,7 @@
 
 const express = require('express');
 const mongoose = require('mongoose');
-//const Task = require('../models/task');
+const Task = require('../models/task');
 const Comment = require('..models/comment');
 const router = express.Router();
 
