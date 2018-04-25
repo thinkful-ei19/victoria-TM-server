@@ -55,7 +55,7 @@ router.put('/workflows/:id', (req, res, next) => {
 
   const updateWorkflow = { title, id };
 
-  Tag.findByIdAndUpdate(id, updateWorkflow, { new: true })
+  Workflow.findByIdAndUpdate(id, updateWorkflow, { new: true })
     .then(result => {
       if (result) {
         res.json(result);
@@ -65,7 +65,7 @@ router.put('/workflows/:id', (req, res, next) => {
     })
     .catch(err => {
       if (err.code === 11000) {
-        err = new Error('The tag title already exists');
+        err = new Error('Workflow already exists');
         err.status = 400;
       }
       next(err);

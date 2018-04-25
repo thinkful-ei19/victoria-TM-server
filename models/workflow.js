@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 
 const workflowSchema = new mongoose.Schema({
   title: { type: String },
-  tasks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Taskme' }]
+  tasks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Task' }]
 });
 
 workflowSchema.set('toObject', {
