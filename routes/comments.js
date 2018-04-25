@@ -16,8 +16,9 @@ router.get('/comments', (req,res,next) => {
 
 router.post('/comments', (req, res, next) => {
   const { comment } = req.body;
+  const newComment = {comment}
 
-  Comment.create(comment)
+  Comment.create(newComment)
     .then(result => {
       res.location(`${req.originalUrl}/${result.id}`).status(201).json(result);
     })
