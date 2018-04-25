@@ -3,11 +3,13 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const Task = require('../models/task');
+const CommentModel = require('../models/comment');
 const Workflow = require('../models/workflow');
 const router = express.Router();
 
 router.get('/tasks', (req,res,next) => {
   return Task.find()
+    .populate('comments')
     .then(result => {
       res.json(result);
     });
@@ -15,13 +17,16 @@ router.get('/tasks', (req,res,next) => {
 });
 
 router.post('/tasks', (req,res,next) => {
-  const {title, content, due} = req.body;
+  const {title, content, due, workflowId} = req.body;
   const newTask = {
     title,
     content,
     due
-  };
+  }
   return Task.create(newTask)
+    .then(task => {
+      return Workflow.findByIdAndUpdate(workflowId, {$push: {tasks: task.id}})
+    })
     .then(result => {
       res.location(`${req.originalUrl}/${result.id}`).status(201).json(result);
     })
@@ -51,7 +56,7 @@ router.put('/tasks/:id', (req, res, next) => {
     return next(err);
   }
 
-  Task.findByIdAndUpdate(id, updateTask, { new: true })
+  Task.findByIdAndUpdate(id, updateTask, { new: true }).populate('comments')
     .then(result => {
       if (result) {
         res.json(result);

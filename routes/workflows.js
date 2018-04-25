@@ -9,6 +9,7 @@ const router = express.Router();
 
 router.get('/workflows', (req, res, next) => {
   return Workflow.find()
+    .populate('task')
     .then(result => {
       res.json(result);
     });
@@ -55,7 +56,7 @@ router.put('/workflows/:id', (req, res, next) => {
 
   const updateWorkflow = { title, id };
 
-  Workflow.findByIdAndUpdate(id, updateWorkflow, { new: true })
+  Workflow.findByIdAndUpdate(id, updateWorkflow, { new: true }).populate('tasks')
     .then(result => {
       if (result) {
         res.json(result);
@@ -75,9 +76,7 @@ router.put('/workflows/:id', (req, res, next) => {
 router.delete('/workflows/:id', (req, res, next) => {
   const { id } = req.params;
 
-  Workflow.findById({ _id: id })
-    .then(result => result.task)
-    .then(Workflow.findByIdAndRemove({ _id: id }))
+  Workflow.findByIdAndRemove({ _id: id })
     .then(result => {
       if (!result) {
         next();

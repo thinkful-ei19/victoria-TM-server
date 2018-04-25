@@ -14,10 +14,13 @@ router.get('/comments', (req,res,next) => {
 });
 
 router.post('/comments', (req, res, next) => {
-  const { comment } = req.body;
+  const { comment, taskId } = req.body;
   const newComment = { comment };
 
   return CommentModel.create(newComment)
+    .then(comment => {
+      return Task.findByIdAndUpdate(taskId, {$push: {comments: comment.id}})
+    })
     .then(result => {
       res.location(`${req.originalUrl}/${result.id}`).status(201).json(result);
     })
@@ -38,7 +41,7 @@ router.put('/comments/:id', (req, res, next) => {
 
   const updateComment = { comment };
 
-  CommentModel.findByIdAndUpdate(id, updateComment)
+  CommentModel.findByIdAndUpdate(id, updateComment, { new: true })
     .then(result => {
       if (result) {
         res.json(result);
