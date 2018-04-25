@@ -7,7 +7,7 @@ const taskSchema = new mongoose.Schema({
   content: { type: String },
   created: { type: Date, default: Date.now },
   due: { type: Date },
-//  comment: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }]
+  comment: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }]
 });
 
 taskSchema.set('toObject', {

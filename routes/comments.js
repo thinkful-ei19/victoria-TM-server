@@ -3,7 +3,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const Task = require('../models/task');
-const Comment = require('..models/comment');
+const Comment = require('../models/comment');
 const router = express.Router();
 
 router.get('/comments', (req,res,next) => {
@@ -51,7 +51,7 @@ router.put('/comments/:id', (req, res, next) => {
     });
 });
 
-/* ========== DELETE/REMOVE A SINGLE ITEM ========== */
+
 router.delete('/comments/:id', (req, res, next) => {
   const { id } = req.params;
 
