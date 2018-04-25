@@ -6,8 +6,7 @@ const taskSchema = new mongoose.Schema({
   title: { type: String },
   content: { type: String },
   created: { type: Date, default: Date.now },
-  due: { type: Date },
-  workflow: { type: mongoose.Schema.Types.ObjectId, ref: 'workflow', required: true },
+  due: { type: Date }
 });
 
 taskSchema.set('toObject', {
@@ -18,4 +17,4 @@ taskSchema.set('toObject', {
   }
 });
 
-module.exports = mongoose.model('Taskme', taskSchema);
+module.exports = mongoose.model('Tasks', taskSchema);

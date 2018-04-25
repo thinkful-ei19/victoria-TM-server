@@ -14,7 +14,7 @@ router.get('/tasks', (req,res,next) => {
 
 });
 
-router.post('/api/tasks', (req,res,next) => {
+router.post('/tasks', (req,res,next) => {
   const {title, content, due, workflow} = req.body.taks;
   const newTask = {
     title,
