@@ -24,13 +24,6 @@ app.use(
   })
 );
 
-// app.get('/api/tasks', (req,res) => {
-//   const task = [
-//     "Raindrops on roses",
-//     "whiskers on kittens"
-//   ]
-//   res.json(task);
-// });
 app.use(express.json());
 
 app.use('/api', taskRouter);
