@@ -16,6 +16,22 @@ router.get('/tasks', (req,res,next) => {
 
 });
 
+router.get('/tasks/:id', (req, res, next) => {
+  const { id } = req.params;
+
+  Task.findOne({ _id: id })
+    .then(result => {
+      if (result) {
+        res.json(result);
+      } else {
+        next();
+      }
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
 router.post('/tasks', (req,res,next) => {
   const {title, content, due, workflowId} = req.body;
   const newTask = {

@@ -15,4 +15,4 @@ workflowSchema.set('toObject', {
   }
 });
 
-module.exports = mongoose.model('Workflow', workflowSchema);
+module.exports = mongoose.model('Workflows', workflowSchema);

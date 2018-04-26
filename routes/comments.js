@@ -13,9 +13,25 @@ router.get('/comments', (req,res,next) => {
     });
 });
 
+router.get('/comments/:id', (req, res, next) => {
+  const { id } = req.params;
+
+  CommentModel.findOne({ _id: id })
+    .then(result => {
+      if (result) {
+        res.json(result);
+      } else {
+        next();
+      }
+    })
+    .catch(err => {
+      next(err);
+    });
+});
+
 router.post('/comments', (req, res, next) => {
-  const { comment, taskId } = req.body;
-  const newComment = { comment };
+  const { commentBody, taskId } = req.body;
+  const newComment = { commentBody };
 
   return CommentModel.create(newComment)
     .then(comment => {
@@ -31,7 +47,7 @@ router.post('/comments', (req, res, next) => {
 
 router.put('/comments/:id', (req, res, next) => {
   const { id } = req.params;
-  const { comment } = req.body;
+  const { commentBody } = req.body;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     const err = new Error('The `id` is not valid');
@@ -39,7 +55,7 @@ router.put('/comments/:id', (req, res, next) => {
     return next(err);
   }
 
-  const updateComment = { comment };
+  const updateComment = { commentBody };
 
   CommentModel.findByIdAndUpdate(id, updateComment, { new: true })
     .then(result => {
