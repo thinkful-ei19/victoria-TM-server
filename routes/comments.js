@@ -35,10 +35,8 @@ router.post('/comments', (req, res, next) => {
 
   return CommentModel.create(newComment)
     .then(comment => {
-      return Task.findByIdAndUpdate(taskId, {$push: {comments: comment.id}})
-    })
-    .then(result => {
-      res.location(`${req.originalUrl}/${result.id}`).status(201).json(result);
+      return Task.findByIdAndUpdate(taskId, {$push: {comment: comment.id}})
+      .then(task => {res.status(201).json({comment, task})})
     })
     .catch(err => {
       next(err);

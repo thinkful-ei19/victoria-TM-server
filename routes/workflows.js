@@ -8,8 +8,13 @@ const Workflow = require('../models/workflow');
 const router = express.Router();
 
 router.get('/workflows', (req, res, next) => {
-  return Workflow.find()
-    .populate('task')
+  return Workflow.find().populate({
+     path: 'tasks',
+     populate: {
+       path: 'comment',
+       model: 'Comment'
+     }
+  })
     .then(result => {
       res.json(result);
     });
@@ -75,17 +80,14 @@ router.put('/workflows/:id', (req, res, next) => {
 
 router.delete('/workflows/:id', (req, res, next) => {
   const { id } = req.params;
-console.log(id, "ID")
   return Workflow.findOneAndRemove({_id: '111111111111111111111112'})
     .then(result => {
-      console.log(result, "£££££££££")
       if (!result) {
         next();
       }
       return result
     })
     .then(result => {
-      console.log(result,"RESULT2")
       res.status(204).end();
     })
     .catch(err => {

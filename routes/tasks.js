@@ -40,11 +40,9 @@ router.post('/tasks', (req,res,next) => {
     due
   }
   return Task.create(newTask)
-    .then(task => {
-      return Workflow.findByIdAndUpdate(workflowId, {$push: {tasks: task.id}})
-    })
-    .then(result => {
-      res.location(`${req.originalUrl}/${result.id}`).status(201).json(result);
+    .then((task) => {
+      Workflow.findByIdAndUpdate(workflowId, {$push: {tasks: task.id}})
+      .then(workflow => { res.status(201).json({task, workflow}) })
     })
     .catch(err => {
       if (err.code === 11000) {
