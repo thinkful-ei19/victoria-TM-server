@@ -80,7 +80,7 @@ router.put('/workflows/:id', (req, res, next) => {
 
 router.delete('/workflows/:id', (req, res, next) => {
   const { id } = req.params;
-  return Workflow.findOneAndRemove({_id: '111111111111111111111112'})
+  return Workflow.findOneAndRemove({_id: id})
     .then(result => {
       if (!result) {
         next();
