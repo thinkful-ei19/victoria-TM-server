@@ -6,6 +6,8 @@ const Task = require('../models/task');
 const CommentModel = require('../models/comment');
 const Workflow = require('../models/workflow');
 const router = express.Router();
+const { convertTasksDate } = require('./common');
+
 
 router.get('/tasks', (req,res,next) => {
   return Task.find()
@@ -42,7 +44,9 @@ router.post('/tasks', (req,res,next) => {
   return Task.create(newTask)
     .then((task) => {
       Workflow.findByIdAndUpdate(workflowId, {$push: {tasks: task.id}})
-      .then(workflow => { res.status(201).json({task, workflow}) })
+      .then(workflow => res.status(201).json(
+        { task: convertTasksDate([task])[0], workflow }
+      ))
     })
     .catch(err => {
       if (err.code === 11000) {

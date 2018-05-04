@@ -4,20 +4,25 @@ const express = require('express');
 const mongoose = require('mongoose');
 const Task = require('../models/task');
 const Workflow = require('../models/workflow');
+const { convertTasksDate } = require('./common');
 
 const router = express.Router();
 
 router.get('/workflows', (req, res, next) => {
-  return Workflow.find().populate({
-     path: 'tasks',
-     populate: {
-       path: 'comment',
-       model: 'Comment'
-     }
-  })
-    .then(result => {
-      res.json(result);
-    });
+  return Workflow.find()
+    .populate({
+       path: 'tasks',
+       populate: {
+         path: 'comment',
+         model: 'Comment'
+       }
+    })
+    .then(workflows => workflows.map(
+      workflow => ({ title: workflow.title, id: workflow.id, tasks: convertTasksDate(workflow.tasks) })
+    ))
+    .then(result => res.json(result))
+    .catch(console.error);
+    ;
 });
 
 router.post('/workflows', (req, res, next) => {
