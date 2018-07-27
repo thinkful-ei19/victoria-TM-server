@@ -4,4 +4,4 @@ Each task has comment section for those lightbulb moments.
 To manage timelines user can also set a deadline for each Task.
 
 Stack MongoDB, Node, React, redux
-https://kind-feynman-4ae45f.netlify.com/
+https://victoria-tm-client.herokuapp.com/
